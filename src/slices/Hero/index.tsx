@@ -4,6 +4,7 @@ import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { Bounded } from "@/components/Bounded";
 import { Canvas } from "@react-three/fiber";
+import { Scene } from "./Scene";
 
 /**
  * Props for `Hero`.
@@ -21,7 +22,8 @@ const Hero: FC<HeroProps> = ({ slice }) => {
       className="blue-gradient-bg relative h-dvh text-white text-shadow-black/30 text-shadow-lg motion-safe:h-[300vh]"
     >
       <div className="hero-scene pointer-events-none sticky top-0 h-dvh w-full">
-        <Canvas>
+        <Canvas shadows="soft">
+          <Scene/>
           
           
         </Canvas>
@@ -35,7 +37,7 @@ const Hero: FC<HeroProps> = ({ slice }) => {
             field={slice.primary.heading}
             components={{
               heading1: ({ children }) => (
-                <h1 className="hero-heading font-black-slanted text-6xl leading-[0.8] uppercase sm:text-7xl lg:text-8xl">
+                <h1 className="hero-heading font-black-slanted text-6xl leading-[0.8] uppercase sm:text-7xl lg:text-8xl max-w-lg break-words">
                   {children}
                 </h1>
               ),
