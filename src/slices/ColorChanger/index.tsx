@@ -11,6 +11,10 @@ import clsx from "clsx";
 import Image from "next/image";
 import { Canvas } from "@react-three/fiber";
 import { Scene } from "./Scene";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP)
 
 export const KEYCAP_TEXTURES = [
   {
@@ -127,12 +131,13 @@ const ColorChanger: FC<ColorChangerProps> = ({ slice }) => {
             <li key={texture.id}>
               <button
                 onClick={() => handleTextureSelect(texture)}
+                disabled={isAnimating}
                 className={clsx(
                   "flex aspect-square flex-col items-center justify-center rounded-lg border-2 p-4 hover:scale-105 motion-safe:transition-all motion-safe:duration-300",
                   selectedTextureId === texture.id
                     ? "border-[#81BFED] bg-[#81BFED]/20"
                     : "cursor-pointer border-gray-300 hover:border-gray-500",
-                  isAnimating && "cursor-not-allowed opacity-50",
+                  selectedTextureId === texture.id && isAnimating && "cursor-not-allowed opacity-50",
                 )}
               >
                 <div className="mb-3 overflow-hidden rounded border-2 border-black bg-gray-100">
