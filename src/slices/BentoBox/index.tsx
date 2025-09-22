@@ -1,6 +1,13 @@
 import { FC } from "react";
-import { Content } from "@prismicio/client";
-import { SliceComponentProps } from "@prismicio/react";
+import { asText, Content } from "@prismicio/client";
+import {
+  PrismicRichText,
+  PrismicText,
+  SliceComponentProps,
+} from "@prismicio/react";
+import { PrismicNextImage } from "@prismicio/next";
+import { Bounded } from "@/components/Bounded";
+import clsx from "clsx";
 
 /**
  * Props for `BentoBox`.
@@ -12,41 +19,48 @@ export type BentoBoxProps = SliceComponentProps<Content.BentoBoxSlice>;
  */
 const BentoBox: FC<BentoBoxProps> = ({ slice }) => {
   return (
-    <section
+    <Bounded
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
-      Placeholder component for bento_box (variation: {slice.variation}) slices.
-      <br />
-      <strong>You can edit this slice directly in your code editor.</strong>
-      {/**
-       * 💡 Use Prismic MCP with your code editor
-       *
-       * Get AI-powered help to build your slice components — based on your actual model.
-       *
-       * ▶️ Setup:
-       * 1. Add a new MCP Server in your code editor:
-       *
-       * {
-       *   "mcpServers": {
-       *     "Prismic MCP": {
-       *       "command": "npx",
-       *       "args": ["-y", "@prismicio/mcp-server@latest"]
-       *     }
-       *   }
-       * }
-       *
-       * 2. Select a model optimized for coding (e.g. Claude 3.7 Sonnet or similar)
-       *
-       * ✅ Then open your slice file and ask your code editor:
-       *    "Code this slice"
-       *
-       * Your code editor reads your slice model and helps you code faster ⚡
-       * 🎙️ Give your feedback: https://community.prismic.io/t/help-us-shape-the-future-of-slice-creation/19505
-       * 📚 Documentation: https://prismic.io/docs/ai#code-with-prismics-mcp-server
-       */}
-    </section>
+      <h2 className="font-bold-slanted mb-8 scroll-pt-6 text-6xl uppercase md:text-8xl">
+        <PrismicText field={slice.primary.heading} />
+      </h2>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+        {slice.primary.items.map((item) => (
+          <BentoBoxItem key={asText(item.text)} item={item} />
+        ))}
+      </div>
+    </Bounded>
   );
 };
 
 export default BentoBox;
+
+type BentoBoxItemProps = {
+  item: Content.BentoBoxSliceDefaultPrimaryItemsItem;
+};
+
+function BentoBoxItem({ item }: BentoBoxItemProps) {
+  return (
+    <div
+      className={clsx(
+        "relative overflow-hidden rounded-3xl",
+        item.size === "Small" && "md:col-span-2",
+        item.size === "Medium" && "md:col-span-3",
+        item.size === "Large" && "md:col-span-4",
+      )}
+    >
+      <PrismicNextImage
+        field={item.image}
+        className="h-full w-full object-cover"
+        quality={96}
+        width={700}
+      />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-black"></div>
+      <div className="absolute bottom-0 left-0 max-w-xl p-6 text-xl text-balance text-white">
+      <PrismicRichText field={item.text} />
+      </div>
+    </div>
+  );
+}
