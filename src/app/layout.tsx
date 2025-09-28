@@ -4,6 +4,8 @@ import "./globals.css";
 
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "@/prismicio";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const robotoFlex = Roboto_Flex({
   variable: "--font-roboto-flex",
@@ -26,8 +28,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${robotoFlex.variable} antialiased`}>
       
-       
+       <Navbar/>
         <main>{children}</main>
+        <Footer/>
        
       </body>
       <PrismicPreview repositoryName={repositoryName} />
