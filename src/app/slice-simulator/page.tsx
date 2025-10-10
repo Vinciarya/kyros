@@ -10,8 +10,7 @@ import { components } from "../../slices";
 export default async function SliceSimulatorPage({
   searchParams,
 }: SliceSimulatorParams) {
-  const { state } = await searchParams;
-  const slices = getSlices(state);
+  const slices = getSlices((await searchParams).state);
 
   return (
     <SliceSimulator>

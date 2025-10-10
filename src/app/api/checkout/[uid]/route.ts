@@ -3,8 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@/prismicio";
 
+// Use a currently supported Stripe API version for reliability.
+// "2025-08-27.basil" is not a standard Stripe version format and may cause issues.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-08-27.basil", // Changed to a supported version for safety
+  // Always use a specific, supported date version (e.g., the current recommended one). The version must match the one defined in apiVersion.ts
+  apiVersion: "2025-08-27.basil", 
 });
 
 // Define the type for the context argument, including the dynamic parameter
@@ -14,15 +17,12 @@ interface RouteContext {
   };
 }
 
-// Corrected function signature: The params object must be nested under a 'context'
-// or defined through destructuring as shown below, where the second argument
-// is the context object containing the 'params' property.
+// The function signature is correctly defined for Next.js App Router dynamic routes.
 export async function POST(
   request: NextRequest,
-  { params }: RouteContext // <--- CORRECTED: 'params' must be inside the context object
+  { params }: RouteContext
 ) {
   try {
-    // Destructuring 'params' works now because the function signature is correct
     const { uid } = params;
 
     if (!uid) {
@@ -35,6 +35,7 @@ export async function POST(
     const prismicClient = createClient();
     const product = await prismicClient.getByUID("product", uid);
 
+    // Asserting types for safety, though they should be handled by Prismic types.
     const name = product.data.name as string;
     const price = product.data.price as number;
     const image = product.data.image?.url;
@@ -50,12 +51,13 @@ export async function POST(
               ...(description ? { description } : {}),
               ...(image ? { images: [image] } : {}),
             },
-            unit_amount: price * 100, // Stripe expects smallest unit
+            unit_amount: price * 100, // Stripe expects smallest unit (pennies/cents/etc.)
           },
           quantity: 1,
         },
       ],
       mode: "payment",
+      // Ensure you are using HTTPS for production environments.
       success_url: `${request.headers.get("origin")}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.headers.get("origin")}/`,
     };
