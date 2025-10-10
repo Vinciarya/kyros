@@ -87,5 +87,5 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone [https://github.com/Vinciarya/ai-resume-analyzer.git](https://github.com/Vinciarya/ai-resume-analyzer.git)
-cd ai-resume-analyzer
+git clone https://github.com/Vinciarya/kyros.git
+cd kyros
