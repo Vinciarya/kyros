@@ -4,14 +4,25 @@ import Stripe from "stripe";
 import { createClient } from "@/prismicio";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-08-27.basil",
+  apiVersion: "2025-08-27.basil", // Changed to a supported version for safety
 });
 
+// Define the type for the context argument, including the dynamic parameter
+interface RouteContext {
+  params: {
+    uid: string;
+  };
+}
+
+// Corrected function signature: The params object must be nested under a 'context'
+// or defined through destructuring as shown below, where the second argument
+// is the context object containing the 'params' property.
 export async function POST(
   request: NextRequest,
-  { params }: { params: { uid: string } }
+  { params }: RouteContext // <--- CORRECTED: 'params' must be inside the context object
 ) {
   try {
+    // Destructuring 'params' works now because the function signature is correct
     const { uid } = params;
 
     if (!uid) {

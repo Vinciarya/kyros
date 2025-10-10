@@ -12,7 +12,6 @@ import clsx from "clsx";
 import { LuChevronRight, LuLoader } from "react-icons/lu";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { button } from "leva";
 import { checkout } from "@/checkout";
 
 gsap.registerPlugin(useGSAP);
