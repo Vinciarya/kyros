@@ -17,6 +17,7 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
+    "@stripe/stripe-js": "^8.0.0",
     "@types/three": "^0.180.0",
     "clsx": "^2.1.1",
     "gsap": "^3.13.0",

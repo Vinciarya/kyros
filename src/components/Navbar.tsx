@@ -15,7 +15,6 @@ import {
 } from "@radix-ui/react-dialog";
 import { Logo } from "./Logo";
 import clsx from "clsx";
-import { checkout } from "@/checkout";
 
 const DialogContext = createContext<
   [open: boolean, setOpen: (open: boolean) => void]
@@ -26,12 +25,7 @@ export function Navbar() {
   const state = useState(false);
   const [open, setOpen] = state;
 
-  async function handleCheckout() {
-    if (button.current) button.current.disabled = true;
-    await checkout();
-    if (button.current) button.current.disabled = false;
-  }
-
+  
   return (
     <header className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between p-3 md:p-6">
       <Link
@@ -43,7 +37,6 @@ export function Navbar() {
       <div className="flex gap-3 md:gap-4">
         <button
           ref={button}
-          onClick={handleCheckout}
           className={clsx(
             "group relative flex h-12 transform-gpu cursor-pointer items-center justify-center overflow-hidden rounded bg-gradient-to-r from-[#01A7E1] to-[#0196C9] px-6 py-2.5 font-semibold text-white will-change-transform hover:shadow-lg hover:shadow-[#01A7E1]/25 focus:ring-2 focus:ring-[#01A7E1] focus:ring-offset-2 focus:outline-none disabled:grayscale motion-safe:transition-all motion-safe:duration-300 md:text-base",
             "before:absolute before:inset-0 before:translate-x-[-100%] before:bg-gradient-to-r before:from-white/0 before:via-white/20 before:to-white/0 before:ease-out hover:before:translate-x-[100%] motion-safe:before:transition-transform motion-safe:before:duration-700",

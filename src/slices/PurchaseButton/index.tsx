@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { LuChevronRight, LuLoader } from "react-icons/lu";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { checkout } from "@/checkout";
+
 
 gsap.registerPlugin(useGSAP);
 
@@ -30,11 +30,7 @@ const PurchaseButton: FC<PurchaseButtonProps> = ({ slice }) => {
   const textRef = useRef<HTMLSpanElement>(null);
   const [isPressed, setIsPressed] = useState(false);
 
-  const handlePurschaseClick = async () => {
-    setIsPressed(true);
-    await checkout();
-    setIsPressed(false);
-  };
+  
 
   useGSAP(() => {
     if (!buttonRef.current && textRef.current) return;
@@ -101,7 +97,7 @@ const PurchaseButton: FC<PurchaseButtonProps> = ({ slice }) => {
         </h2>
         <button
           ref={buttonRef}
-          onClick={handlePurschaseClick}
+         
           disabled={isPressed}
           className={clsx(
             "group relative w-full overflow-hidden rounded-full border-8 border-gray-800 bg-linear-to-r/oklch from-sky-300 to-sky-600 px-8 py-6 ease-out focus:ring-[24px] focus:ring-sky-500/50 focus:outline-none motion-safe:transition-all motion-safe:duration-300 md:border-[12px] md:px-20 md:py-16",
